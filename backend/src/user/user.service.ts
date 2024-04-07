@@ -12,16 +12,19 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async findAllUsers(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async findById(id: number): Promise<User> {
+  async findByIdUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+  async findByUsername(username: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { username } });
   }
 
   async create(user: Partial<User>): Promise<User> {
