@@ -2,11 +2,13 @@
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
-import { User } from '../entity/user.entity'; // Import the User entity
+import { ConfigModule } from '@nestjs/config';
+import { User } from 'src/entity/user.entity';
+
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
@@ -14,7 +16,7 @@ import { User } from '../entity/user.entity'; // Import the User entity
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User], // Include the User entity here
+      entities: [User],
       synchronize: true, // Don't use in production, it drops the database schema and recreates it
     }),
   ],
