@@ -18,6 +18,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Product, (product) => product.user)
+  @OneToMany(() => Product, (product) => product.creator)
   products: Product[];
 }

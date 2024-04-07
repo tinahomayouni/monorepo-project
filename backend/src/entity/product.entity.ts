@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,7 +41,8 @@ export class Product {
   })
   public updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.products)
-  @JoinColumn()
-  user: User;
+  // relationships
+
+  @ManyToOne(() => User, (user) => user.products, { cascade: true })
+  creator: User;
 }

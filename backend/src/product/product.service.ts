@@ -27,15 +27,20 @@ export class ProductService {
     product.price = createProductDto.price;
     product.description = createProductDto.description;
     product.images = createProductDto.images;
-    product.user = user;
+    product.creator = user;
 
     return await this.productRepository.save(product);
   }
 
-  async getAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Product>> {
+  async getAll(
+    userName: string,
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Product>> {
+    const user = await this.userService.findByUsername(userName);
     const queryBuilder = this.productRepository.createQueryBuilder('product');
 
     queryBuilder
+      .where({ creator: user.id })
       .orderBy('product.created_at', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);

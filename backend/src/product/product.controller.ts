@@ -23,13 +23,18 @@ export class ProductController {
   async create(@Request() req, @Body() createProductDto: CreateProductDto) {
     const user = req.user;
 
-    return this.productService.create(user, createProductDto);
+    return this.productService.create(user.username, createProductDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('/')
-  async getAllProducts(@Query() pageOptionsDto: PageOptionsDto) {
-    return this.productService.getAll(pageOptionsDto);
+  async getAllProducts(
+    @Request() req,
+    @Query() pageOptionsDto: PageOptionsDto,
+  ) {
+    const user = req.user;
+
+    return this.productService.getAll(user.username, pageOptionsDto);
   }
 }

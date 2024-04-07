@@ -8,4 +8,4 @@ import { ProductModule } from './product/product.module';
 @Module({
   imports: [DatabaseModule, UserModule,AuthModule,ProductModule, ConfigModule.forRoot()],
 })
-export class AppModule {}
+export class AppModule {} 
