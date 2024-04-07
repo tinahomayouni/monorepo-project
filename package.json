@@ -4,5 +4,11 @@
     "frontend",
     "backend",
     "shared"
-  ]
+  ],
+  "dependencies": {
+    "@nestjs/typeorm": "^10.0.2",
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.5",
+    "typeorm": "^0.3.20"
+  }
 }
