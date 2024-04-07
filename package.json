@@ -6,6 +6,7 @@
     "shared"
   ],
   "dependencies": {
+    "@nestjs/config": "^3.2.2",
     "@nestjs/typeorm": "^10.0.2",
     "dotenv": "^16.4.5",
     "pg": "^8.11.5",
