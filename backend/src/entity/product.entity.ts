@@ -22,6 +22,9 @@ export class Product {
   name: string;
 
   @Column()
+  creator_id: string;
+
+  @Column()
   price: string;
 
   @Column()

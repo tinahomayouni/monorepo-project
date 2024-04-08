@@ -7,9 +7,14 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AddProduct = () => {
   const [addProductData, addProduct] = useFetch();
+  const [uploadData, uploadFile] = useFetch();
+
+  const [images, setImages] = React.useState([]);
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -17,6 +22,12 @@ const AddProduct = () => {
       navigate("/products");
     }
   }, [addProductData]);
+
+  React.useEffect(() => {
+    if (uploadData?.data) {
+      setImages((prev) => [...prev, uploadData?.data?.id]);
+    }
+  }, [uploadData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,11 +37,32 @@ const AddProduct = () => {
       method: "post",
       url: "/products/register",
       data: {
-        images: [],
+        images: images,
         name: data.get("name"),
         price: data.get("price"),
         description: data.get("description"),
       },
+    });
+  };
+  const onFileChange = (event) => {
+    // Update the state
+    const formData = new FormData();
+
+    const file = event.target.files[0];
+    console.log(file, "event.target.files");
+
+    // Update the formData object
+    formData.append("file", file, file?.name);
+
+    // Details of the uploaded file
+    console.log(file);
+
+    // Request made to the backend api
+    // Send formData object
+    uploadFile({
+      method: "post",
+      url: "/image/upload",
+      data: formData,
     });
   };
 
@@ -50,6 +82,8 @@ const AddProduct = () => {
         Add Product
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <input type="file" onChange={onFileChange} />
+
         <TextField
           margin="normal"
           required
@@ -84,7 +118,11 @@ const AddProduct = () => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
+          {uploadData?.loading ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            "Create Product"
+          )}
         </Button>
       </Box>
     </Box>

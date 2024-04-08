@@ -9,7 +9,6 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
-  const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
 
   return (
@@ -24,7 +23,7 @@ export default function ProductCard({ product }) {
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image={`http://localhost:3000/api/image/${product?.images[0]}`}
         alt="Paella dish"
       />
       <CardContent>

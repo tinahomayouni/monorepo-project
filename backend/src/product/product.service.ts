@@ -28,6 +28,7 @@ export class ProductService {
     product.description = createProductDto.description;
     product.images = createProductDto.images;
     product.creator = user;
+    product.creator_id = String(user.id);
 
     return await this.productRepository.save(product);
   }
@@ -39,7 +40,6 @@ export class ProductService {
     const queryBuilder = this.productRepository.createQueryBuilder('product');
 
     queryBuilder
-      .where({ creator: Not(user.id) })
       .orderBy('product.created_at', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
@@ -68,5 +68,8 @@ export class ProductService {
 
     await this.productRepository.update(productId, { status: 'sold' });
     return product;
+  }
+  async updateProduct(productId: string, updateValue: Product) {
+    return this.productRepository.update(productId, updateValue);
   }
 }

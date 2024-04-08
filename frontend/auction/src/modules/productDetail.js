@@ -1,11 +1,12 @@
 import * as React from "react";
 import useFetch from "../hooks";
-import { Box, Container } from "@mui/material";
+import { Box, Container, ListItemButton } from "@mui/material";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useParams,
+  Navigate,
 } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -21,6 +22,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -39,6 +41,9 @@ const ProductDetail = () => {
   const [offersData, fetchOffers] = useFetch();
   const [makeOfferApiData, makeOfferApi] = useFetch();
   const [buyProductApiData, buyProductApi] = useFetch();
+  const [acceptOfferData, acceptOffer] = useFetch();
+
+  const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -52,7 +57,7 @@ const ProductDetail = () => {
       method: "get",
     });
     fetchOffers({
-      url: `/offers/${id}?order=ASC&page=1&take=10`,
+      url: `/offers/${id}?order=DESC&page=1&take=10`,
       method: "get",
     });
   }, []);
@@ -74,11 +79,18 @@ const ProductDetail = () => {
         method: "get",
       });
       fetchOffers({
-        url: `/offers/${id}?order=ASC&page=1&take=10`,
+        url: `/offers/${id}?order=DESC&page=1&take=10`,
         method: "get",
       });
     }
   }, [makeOfferApiData]);
+
+  React.useEffect(() => {
+    console.log(acceptOfferData, "acceptOfferData");
+    if (acceptOfferData?.data) {
+      navigate("/products");
+    }
+  }, [acceptOfferData]);
 
   const buyProduct = () => {
     buyProductApi({
@@ -100,8 +112,21 @@ const ProductDetail = () => {
     });
   };
 
-  console.log(offersData, "offersData");
-  console.log(productData, "productData");
+  const accept = () => {
+    acceptOffer({
+      url: `/offers/accept-offer/${id}`,
+      method: "get",
+    });
+  };
+
+  const isSeller = offersData?.data?.user === productData?.data?.creator_id;
+
+  const lastOfferMadeByBuyer =
+    offersData?.data?.data[0]?.creator_id !== productData?.data?.creator_id;
+
+  const lastOfferMadeBySeller =
+    offersData?.data?.data[0]?.creator_id === productData?.data?.creator_id;
+
   return (
     <Container>
       <Stack spacing={2} direction="row" style={{ marginBottom: 32 }}>
@@ -111,9 +136,7 @@ const ProductDetail = () => {
         <Button
           variant="outlined"
           onClick={handleOpen}
-          disabled={
-            offersData?.data?.data[0]?.creator_id === offersData?.data?.user
-          }
+          disabled={isSeller ? lastOfferMadeBySeller : lastOfferMadeByBuyer}
         >
           Counter Offer
         </Button>
@@ -144,6 +167,11 @@ const ProductDetail = () => {
                 primary={offer?.price}
                 secondary={offer?.created_at?.split("T")[0]}
               />
+              {index === 0 &&
+              ((isSeller && lastOfferMadeByBuyer) ||
+                (!isSeller && lastOfferMadeBySeller)) ? (
+                <ListItemButton onClick={accept}>Accept</ListItemButton>
+              ) : null}
             </ListItem>
           );
         })}

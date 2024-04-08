@@ -5,14 +5,16 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // Set a global prefix for your API routes (optional)
   app.setGlobalPrefix('api');
 
-// Set up Swagger options
+  // Set up Swagger options
   const options = new DocumentBuilder()
     .setTitle('Your API Title')
     .setDescription('Your API Description')
@@ -37,8 +39,9 @@ async function bootstrap() {
     }),
   );
 
-
   app.enableCors();
+  const publicPath = join(__dirname, '../public');
+  app.useStaticAssets(publicPath);
 
   await app.listen(3000);
 }

@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from 'src/entity/user.entity';
 import { Product } from 'src/entity/product.entity';
 import { Offer } from 'src/entity/offer.entity';
-
+import { Image } from 'src/entity/image.entity';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { Offer } from 'src/entity/offer.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Product, Offer],
+      entities: [User, Product, Offer, Image],
       synchronize: true, // Don't use in production, it drops the database schema and recreates it
     }),
   ],
