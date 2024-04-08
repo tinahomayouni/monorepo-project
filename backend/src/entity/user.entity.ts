@@ -1,11 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Product } from './product.entity';
+import { Offer } from './offer.entity';
 
 @Entity()
 export class User {
@@ -18,6 +13,9 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Product, (product) => product.creator)
+  @OneToMany(() => Product, (product) => product.id)
   products: Product[];
+
+  @OneToMany(() => Offer, (offer) => offer.user)
+  offers: Offer[];
 }

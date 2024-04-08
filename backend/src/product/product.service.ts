@@ -1,5 +1,5 @@
 // product.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -8,6 +8,8 @@ import { UserService } from 'src/user/user.service';
 import { PageOptionsDto } from './dto/page-options.dto';
 import { PageDto } from './dto/page.dto';
 import { PageMetaDto } from './dto/page-meta.dto';
+import { MakeOfferOnProductDto } from './dto/counter-offer.dto';
+import { Offer } from 'src/entity/offer.entity';
 
 @Injectable()
 export class ProductService {
@@ -31,8 +33,7 @@ export class ProductService {
 
     return await this.productRepository.save(product);
   }
-
-  async getAll(
+  async getAllProducts(
     userName: string,
     pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<Product>> {
@@ -51,5 +52,41 @@ export class ProductService {
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
     return new PageDto(entities, pageMetaDto);
+  }
+  async getSingleProduct(productId: number): Promise<Product> {
+    return await this.productRepository.findOne({
+      where: { id: productId },
+    });
+  }
+  async buyProduct(productId: number): Promise<Product> {
+    const product = await this.productRepository.findOne({
+      where: { id: productId },
+    });
+    console.log(product);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    product.status = 'sold';
+
+    return await this.productRepository.save(product);
+  }
+  async makeCounterOfferOnProduct(
+    makeOfferOnProductDto: MakeOfferOnProductDto,
+  ): Promise<Product> {
+    const product = await this.productRepository.findOne({
+      where: { id: Number(makeOfferOnProductDto.productId) },
+    });
+    console.log(product);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    const offer = new Offer();
+    offer.price = makeOfferOnProductDto.price;
+    offer.product_id = makeOfferOnProductDto.productId;
+
+    product.offers = [...product.offers, offer];
+
+    return await this.productRepository.save(product);
   }
 }
