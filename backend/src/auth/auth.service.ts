@@ -20,9 +20,7 @@ export class AuthService {
 
       // Find the user by username
       const user = await this.userService.findByUsername(username);
-      console.log(user, 'user');
       const hashedPassword = await bcrypt.hash(user.password, 10);
-      console.log(hashedPassword, 'hashedPassword');
 
       if (user.username) {
         const hashedPassword = await bcrypt.compare(password, user.password);

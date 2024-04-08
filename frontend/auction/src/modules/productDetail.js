@@ -86,7 +86,6 @@ const ProductDetail = () => {
   }, [makeOfferApiData]);
 
   React.useEffect(() => {
-    console.log(acceptOfferData, "acceptOfferData");
     if (acceptOfferData?.data) {
       navigate("/products");
     }

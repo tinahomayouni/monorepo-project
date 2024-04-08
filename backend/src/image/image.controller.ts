@@ -24,15 +24,12 @@ export class ImageController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file) {
-    console.log(file, 'file');
     return this.imageService.uploadImage(file);
   }
 
   @Get(':id')
   async serveImage(@Param('id') imageId: number, @Res() res: Response) {
     const image = await this.imageService.serveImage(imageId);
-    console.log(image, 'image');
-    console.log(imageId, 'imageId');
 
     if (!image) {
       return res.status(404).send('Image not found');

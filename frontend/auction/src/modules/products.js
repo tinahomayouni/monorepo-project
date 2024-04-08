@@ -18,10 +18,6 @@ const Products = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    console.log(productsData);
-  }, [productsData]);
-
   return (
     <Container>
       <Stack spacing={2} direction="row" style={{ marginBottom: 32 }}>

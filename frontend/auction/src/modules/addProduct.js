@@ -49,13 +49,11 @@ const AddProduct = () => {
     const formData = new FormData();
 
     const file = event.target.files[0];
-    console.log(file, "event.target.files");
 
     // Update the formData object
     formData.append("file", file, file?.name);
 
     // Details of the uploaded file
-    console.log(file);
 
     // Request made to the backend api
     // Send formData object

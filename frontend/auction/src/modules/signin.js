@@ -51,7 +51,6 @@ export default function SignIn() {
   };
 
   React.useEffect(() => {
-    console.log(loginData);
     if (loginData?.data?.result?.accessToken) {
       setCookie(
         null,
