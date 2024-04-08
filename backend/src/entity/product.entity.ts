@@ -50,6 +50,6 @@ export class Product {
   @ManyToOne(() => User, (user) => user.id)
   creator: User;
 
-  @OneToOne(() => Offer, (offer) => offer.id) // Corrected relationship definition
-  offers: Offer[]; // Ensure this matches the Offer entity definition
+  // @OneToOne(() => Offer, (offer) => offer.id) // Corrected relationship definition
+  // offers: Offer[]; // Ensure this matches the Offer entity definition
 }

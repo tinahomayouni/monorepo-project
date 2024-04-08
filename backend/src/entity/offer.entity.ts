@@ -19,6 +19,9 @@ export class Offer {
   product_id: string;
 
   @Column()
+  creator_id: string;
+
+  @Column()
   price: string;
 
   @CreateDateColumn({
@@ -28,8 +31,8 @@ export class Offer {
   public created_at: Date;
 
   // relationships
-  @ManyToOne(() => User, (user) => user.offers)
-  user: User;
+  @ManyToOne(() => User, (user) => user.id)
+  user: string | number;
 
   @OneToOne(() => Product, (product) => product.id)
   product: Product;
