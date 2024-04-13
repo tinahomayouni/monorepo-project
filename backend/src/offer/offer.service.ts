@@ -6,7 +6,7 @@ import { Offer } from 'src/entity/offer.entity';
 import { PageMetaDto } from 'src/product/dto/page-meta.dto';
 import { PageDto } from 'src/product/dto/page.dto';
 import { Repository } from 'typeorm';
-import { MakeOfferOnProductDto } from './dto/counter-offer.dto';
+import { MakeOfferOnProductDto } from './dto/make-offer-on-product.dto';
 import { ProductService } from 'src/product/product.service';
 import { UserService } from 'src/user/user.service';
 import { PageOptionsDto } from 'src/product/dto/page-options.dto';

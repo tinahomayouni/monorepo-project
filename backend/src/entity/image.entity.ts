@@ -13,6 +13,4 @@ export class Image {
 
   @Column()
   mimetype: string;
-
-  // Add more columns if needed, like size, uploader info, etc.
 }

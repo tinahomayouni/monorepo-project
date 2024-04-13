@@ -4,11 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
-  JoinColumn,
   OneToOne,
 } from 'typeorm';
 import { User } from './user.entity';
-import { Product } from './product.entity'; // Make sure Product entity is imported
+import { Product } from './product.entity';
 
 @Entity()
 export class Offer {
@@ -30,7 +29,6 @@ export class Offer {
   })
   public created_at: Date;
 
-  // relationships
   @ManyToOne(() => User, (user) => user.id)
   user: string | number;
 

@@ -5,9 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { OfferModule } from './offer/offer.module';
-import { MulterModule } from '@nestjs/platform-express';
-import { multerConfig } from '../multer.config';
-import { ImageModule } from './image/image.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -18,7 +15,6 @@ import { join } from 'path';
     AuthModule,
     ProductModule,
     OfferModule,
-    ImageModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),

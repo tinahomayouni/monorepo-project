@@ -49,10 +49,7 @@ export class Product {
   })
   public updated_at: Date;
 
-  @JoinTable() // Assuming there's a user_id column in the Product table
+  @JoinTable()
   @ManyToOne(() => User, (user) => user.id)
   creator: User;
-
-  // @OneToOne(() => Offer, (offer) => offer.id) // Corrected relationship definition
-  // offers: Offer[]; // Ensure this matches the Offer entity definition
 }

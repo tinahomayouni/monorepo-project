@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { OfferService } from './offer.service';
 import { User } from 'src/entity/user.entity';
-import { MakeOfferOnProductDto } from './dto/counter-offer.dto';
+import { MakeOfferOnProductDto } from './dto/make-offer-on-product.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { PageOptionsDto } from 'src/product/dto/page-options.dto';
