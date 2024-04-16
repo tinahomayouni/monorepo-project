@@ -8,10 +8,31 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserReqLoginDto } from './dto/user.request.login.dto';
+import { error } from 'console';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('google-sign-up')
+  async googleSignUp(@Body() googleUser: any) {
+    try {
+      const result = await this.authService.googleSignUp(googleUser);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  @Post('sign-up')
+  async signUp(@Body() userRequestLoginDto: UserReqLoginDto) {
+    try {
+      const result = await this.authService.signUp(userRequestLoginDto);
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
 
   @Post('login')
   async login(@Body() userRequestLoginDto: UserReqLoginDto) {

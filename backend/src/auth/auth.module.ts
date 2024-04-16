@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import * as dotenv from 'dotenv';
 import { UserModule } from 'src/user/user.module';
+import { BcryptService } from './bcrypt/bcrypt.service';
 
 dotenv.config();
 
@@ -20,6 +21,6 @@ dotenv.config();
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, BcryptService],
 })
 export class AuthModule {}

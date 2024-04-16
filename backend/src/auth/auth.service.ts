@@ -3,14 +3,32 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserReqLoginDto } from './dto/user.request.login.dto';
 import { UserService } from 'src/user/user.service';
+import { BcryptService } from './bcrypt/bcrypt.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    private readonly bcryptService: BcryptService,
   ) {}
 
+  async googleSignUp(googleUser: any) {
+    const { email, name } = googleUser;
+    let user = await this.userService.findByUsername(email);
+    if (!user) {
+      const password = '';
+
+      user = await this.userService.createUser(email, password);
+    }
+    user.username = name;
+    return this.userService.create(user);
+  }
+  async signUp(userRequestLoginDto: UserReqLoginDto) {
+    const { username, password } = userRequestLoginDto;
+    const hashedPassword = await this.bcryptService.hashPassword(password);
+    return this.userService.createUser(username, hashedPassword);
+  }
   async login(userReqLoginDto: UserReqLoginDto): Promise<{
     accessToken: string;
     username: string;
@@ -18,7 +36,6 @@ export class AuthService {
     try {
       const { username, password } = userReqLoginDto;
 
-      // Find the user by username
       const user = await this.userService.findByUsername(username);
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
@@ -38,7 +55,6 @@ export class AuthService {
         }
       }
 
-      // If the user does not exist or the password is incorrect, throw an error
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
