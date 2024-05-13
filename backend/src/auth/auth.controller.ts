@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserReqLoginDto } from './dto/user.request.login.dto';
-import { error } from 'console';
 
 @Controller()
 export class AuthController {
