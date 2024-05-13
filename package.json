@@ -4,5 +4,13 @@
     "frontend",
     "backend",
     "shared"
-  ]
+  ],
+  "dependencies": {
+    "@nestjs/platform-express": "^10.3.7",
+    "@nestjs/serve-static": "^4.0.2",
+    "@types/multer": "^1.4.11",
+    "multer": "^1.4.5-lts.1",
+    "nookies": "^2.5.2",
+    "react-uploader": "^3.43.0"
+  }
 }
