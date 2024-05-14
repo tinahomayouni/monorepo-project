@@ -55,7 +55,6 @@ export class MediaService {
       savedMedia.id + '-' + savedMedia.filename,
     );
     fs.writeFileSync(filePath, file.buffer);
-    console.log(filePath, 'projectRoot');
 
     return {
       id: savedMedia.id,

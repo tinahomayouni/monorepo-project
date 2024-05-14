@@ -1,10 +1,9 @@
-// media.controller.ts
-
 import {
   Controller,
   Post,
   UploadedFile,
   UseInterceptors,
+  Body,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
