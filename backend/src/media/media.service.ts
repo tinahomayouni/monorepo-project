@@ -4,6 +4,7 @@ import { Media } from 'src/entity/media.entity';
 import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
+import { FlagDto } from './dto/flag.dto';
 
 @Injectable()
 export class MediaService {
@@ -12,8 +13,9 @@ export class MediaService {
     private mediaRepository: Repository<Media>,
   ) {}
 
-  async saveMedia(file: Express.Multer.File): Promise<any> {
+  async saveMedia(file: Express.Multer.File, flag: FlagDto): Promise<any> {
     const type = file.mimetype.startsWith('image') ? 'image' : 'file';
+    console.log('media', flag);
 
     if (!file.originalname) {
       throw new Error('Original filename is undefined');
@@ -22,6 +24,7 @@ export class MediaService {
     const media = new Media();
     media.filename = file.originalname;
     media.type = type;
+    media.flag = flag.flag;
 
     // Save to database
     const savedMedia = await this.mediaRepository.save(media);

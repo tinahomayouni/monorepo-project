@@ -11,5 +11,8 @@ export class Media {
   filename: string;
 
   @Column()
-  type: string; // file, image, text, etc.
+  type: string;
+
+  @Column()
+  flag: string;
 }

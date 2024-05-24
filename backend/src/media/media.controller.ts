@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
+import { FlagDto } from './dto/flag.dto';
 
 @Controller('media')
 export class MediaController {
@@ -14,7 +15,10 @@ export class MediaController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
-    return await this.mediaService.saveMedia(file);
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() flag: FlagDto,
+  ): Promise<any> {
+    return await this.mediaService.saveMedia(file, flag);
   }
 }
